@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.weatherfish.flutter_wechat_qrcode">
+
+    <application>
+        <activity
+            android:name=".WeChatQRCodeActivity"
+            android:theme="@style/CameraScanTheme" />
+    </application>
+</manifest>
