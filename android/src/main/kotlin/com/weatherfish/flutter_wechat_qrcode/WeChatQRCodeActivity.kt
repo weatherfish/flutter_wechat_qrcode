@@ -1,7 +1,6 @@
 package com.weatherfish.flutter_wechat_qrcode;
 
 import android.content.Intent
-import android.util.Log
 import com.king.mlkit.vision.camera.AnalyzeResult
 import com.king.wechat.qrcode.scanning.WeChatCameraScanActivity
 import java.util.ArrayList
