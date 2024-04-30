@@ -67,17 +67,23 @@ class FlutterWechatQrcodePlugin : FlutterPlugin, MethodCallHandler,
         activityPluginBinding = binding
         binding.addActivityResultListener(this)
     }
+
     override fun onDetachedFromActivityForConfigChanges() {}
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
     override fun onDetachedFromActivity() {
         activityPluginBinding?.removeActivityResultListener(this)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     val results = data!!.getStringArrayListExtra("result")
-                    pendingResult?.success(results)
+                    if (results?.isNotEmpty() == true) {
+                        pendingResult?.success(results[0])
+                    } else {
+                        pendingResult?.success(null)
+                    }
                 } catch (exp: Exception) {
                     exp.printStackTrace()
                     pendingResult?.success(null)

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KKQRCodeScannerController : UIViewController
-
+@property (nonatomic, copy) void (^completionHandler)(NSString *);
 @end
 
 NS_ASSUME_NONNULL_END

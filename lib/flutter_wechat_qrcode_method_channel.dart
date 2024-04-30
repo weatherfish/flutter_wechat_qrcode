@@ -23,10 +23,10 @@ class MethodChannelFlutterWechatQrcode extends FlutterWechatQrcodePlatform {
 
 
    @override
-  Future<List<String>> scanCamera() async {
-    final List<dynamic>? result = await methodChannel.invokeMethod("scanCamera");
-    if (result == null) return Future.value([]);
-    return Future.value(result.cast());
+  Future<String> scanCamera() async {
+    final String? result = await methodChannel.invokeMethod("scanCamera");
+    if (result == null) return Future.value('');
+    return Future.value(result);
   }
 
 }

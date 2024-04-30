@@ -1,4 +1,5 @@
 #import "FlutterWechatQrcodePlugin.h"
+#import "KKQRCodeScannerController.h"
 
 @implementation FlutterWechatQrcodePlugin
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
@@ -13,11 +14,15 @@
     if ([@"getPlatformVersion" isEqualToString:call.method]) {
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else if ([@"scanImage" isEqualToString:call.method]) {
-
+        
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else if ([@"scanCamera" isEqualToString:call.method]) {
-
-        result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+        KKQRCodeScannerController* qrController = [[KKQRCodeScannerController alloc] init];
+        qrController.completionHandler = ^(NSString* data) {
+             result(data);
+       };
+       UIViewController* rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+       [rootViewController presentViewController:qrController animated:YES completion:nil];
     } else {
         result(FlutterMethodNotImplemented);
     }

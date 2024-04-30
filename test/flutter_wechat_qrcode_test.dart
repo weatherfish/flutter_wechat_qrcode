@@ -12,7 +12,7 @@ class MockFlutterWechatQrcodePlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<List<String>> scanCamera() {
+  Future<String> scanCamera() {
     // TODO: implement scanCamera
     throw UnimplementedError();
   }
@@ -32,6 +32,7 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
+    FlutterWechatQrcode flutterWechatQrcodePlugin = FlutterWechatQrcode();
     MockFlutterWechatQrcodePlatform fakePlatform = MockFlutterWechatQrcodePlatform();
     FlutterWechatQrcodePlatform.instance = fakePlatform;
 

@@ -13,10 +13,7 @@
 
 @interface KKQRCodeScannerController () <KKQRCodeScannerViewDelegate>
 @property (nonatomic, strong) KKQRCodeScannerView *scannerView;
-@property (nonatomic, weak) IBOutlet UILabel *tipsLabel;
 
-@property (nonatomic, strong) CALayer *containerLayer;
-@property (nonatomic, strong) NSMutableArray<CAShapeLayer *> *reuseMarkLayers;
 @end
 
 @implementation KKQRCodeScannerController
@@ -37,22 +34,11 @@
 		[self.scannerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
 		[self.scannerView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
 	]];
-
-	self.tipsLabel.textColor = UIColor.redColor;
-	self.tipsLabel.text      = @"";
-
-	self.reuseMarkLayers = [NSMutableArray<CAShapeLayer *> arrayWithCapacity:5];
-
-	self.containerLayer                 = [CALayer layer];
-	self.containerLayer.backgroundColor = UIColor.clearColor.CGColor;
-
-	[self.scannerView.layer addSublayer:self.containerLayer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	self.scannerView.delegate = self;
-	self.containerLayer.frame = self.scannerView.layer.bounds;
 	[self.scannerView startScanner:nil];
 }
 
@@ -64,43 +50,28 @@
 
 #pragma mark - clear
 - (void)clearMarkLayers {
-	if (self.containerLayer.sublayers.count > 0) {
-		[self.reuseMarkLayers addObjectsFromArray:self.containerLayer.sublayers];
-		[self.containerLayer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-	}
+
 }
 
 #pragma mark - KKQRCodeScannerViewDelegate
 - (BOOL)qrcodeScannerView:(KKQRCodeScannerView *)scannerView didScanner:(NSArray<KKQRCodeScannerResult *> *)results elapsedTime:(NSTimeInterval)elapsedTime {
 	[self clearMarkLayers];
 	if (!results || results.count == 0) {
-		self.tipsLabel.text = @"";
 		return NO;
 	}
-	NSMutableString *text = [NSMutableString string];
-	for (KKQRCodeScannerResult *element in results) {
-		[text appendFormat:@"\n%@", element.content];
 
-		CAShapeLayer *markLayer = nil;
-		if (self.reuseMarkLayers.count > 0) {
-			markLayer = self.reuseMarkLayers.lastObject;
-			[self.reuseMarkLayers removeLastObject];
-		} else {
-			markLayer             = [CAShapeLayer layer];
-			markLayer.fillColor   = UIColor.clearColor.CGColor;
-			markLayer.strokeColor = UIColor.greenColor.CGColor;
-			markLayer.lineWidth   = 2;
-			markLayer.fillRule    = kCAFillRuleEvenOdd;
-		}
+// 假设我们只关心第一个扫描结果
+   KKQRCodeScannerResult *firstResult = results.firstObject;
+   NSString *content = firstResult.content;
 
-		UIBezierPath *path = [UIBezierPath bezierPathWithRect:element.rectOfView];
-		markLayer.path     = path.CGPath;
-		[self.containerLayer addSublayer:markLayer];
-	}
-	[text appendFormat:@"\n耗时: %fs", elapsedTime];
-
-	self.tipsLabel.text = text;
-
+    [self dismissViewControllerAnimated:YES completion:^{
+        // 调用completionHandler，并传递content
+        if (self.completionHandler) {
+            self.completionHandler(content);
+        }
+    }];
+   
+    
 	return NO;
 }
 

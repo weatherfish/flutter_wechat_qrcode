@@ -31,7 +31,7 @@ abstract class FlutterWechatQrcodePlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<List<String>> scanCamera() async {
+  Future<String> scanCamera() async {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }

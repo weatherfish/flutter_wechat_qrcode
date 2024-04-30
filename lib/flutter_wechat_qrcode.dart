@@ -15,7 +15,7 @@ class FlutterWechatQrcode {
     return FlutterWechatQrcodePlatform.instance.scanImage(path);
   }
 
-  static Future<List<String>> scanCamera() {
+  static Future<String> scanCamera() {
     return FlutterWechatQrcodePlatform.instance.scanCamera();
   }
 }
