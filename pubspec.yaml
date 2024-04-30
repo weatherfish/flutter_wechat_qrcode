@@ -1,6 +1,7 @@
 name: flutter_wechat_qrcode
 description: "QRScan by WeChat project."
-version: 0.0.1
+version: 0.0.2
+repository: https://github.com/weatherfish/flutter_wechat_qrcode
 homepage:
 
 environment:
